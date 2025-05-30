@@ -1,7 +1,7 @@
 import asyncio
 
-from app.database.models import async_session
-from app.database.models import User
+from app.bot.database.models import async_session
+from app.bot.database.models import User
 from sqlalchemy import select
 from sqlalchemy import func
 from typing import Optional

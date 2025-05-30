@@ -5,10 +5,10 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
 from config import HOST, ADMIN_ID
-import app.database.requests as rq
-import app.keyboards as kb
-from app.server_status import online, offline, is_server_online
-import app.bug_reports as br
+import app.bot.database.requests as rq
+import app.bot.keyboards as kb
+from app.bot.server_status import online, offline, is_server_online
+import app.bot.bug_reports as br
 
 
 router = Router()
@@ -84,13 +84,13 @@ async def main_callback_query(call: CallbackQuery):
             await call.answer(text="Статус сервера ещё не определён. Попробуйте чуть позже.", show_alert=False)
 
     elif call.data == 'update':
-        from app.server_status import previous_status
+        from app.bot.server_status import previous_status
         prev = previous_status
         status = await is_server_online()
         if status != prev:
             # ВАЖНО: обновляем previous_status!
-            import app.server_status
-            app.server_status.previous_status = status
+            import app.bot.server_status
+            app.bot.server_status.previous_status = status
 
             if status == online:
                 await call.message.edit_text(

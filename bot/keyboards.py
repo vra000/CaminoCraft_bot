@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-import app.database.requests as rq
+import app.bot.database.requests as rq
 
 # Основная панель
 main_keyboard = InlineKeyboardMarkup(inline_keyboard=[
