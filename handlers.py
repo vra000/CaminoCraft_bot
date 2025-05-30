@@ -320,4 +320,3 @@ async def report_punish(call: CallbackQuery):
     )
     sent = await call.bot.send_message(chat_id=call.message.chat.id, text='Пользователь наказан 🔔')
     asyncio.create_task(delete_message_later(sent, delay=10))
-    
