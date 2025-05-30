@@ -1,0 +1,6 @@
+TOKEN = "8069286589:AAE9nAwMJLyO1NHgtWhyszO2KsE63BWtZ4s"
+
+HOST = "7mabx.mc-join.me"
+
+ADMIN_ID = 6606108854
+SUPPORT = []

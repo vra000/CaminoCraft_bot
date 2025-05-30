@@ -4,7 +4,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from config import HOST, ADMIN_ID
+from app.bot.config import HOST, ADMIN_ID
 import app.bot.database.requests as rq
 import app.bot.keyboards as kb
 from app.bot.server_status import online, offline, is_server_online
