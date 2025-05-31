@@ -11,7 +11,6 @@ async def set_user_data(user_id: int, username: Optional[str]=None, description:
     #Ищем пользователя
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.user_id == user_id))
-        # Если не нашли, то создаём
         if not user:
             user = User(user_id=user_id, username=username, description=description, photo_id=photo_id, process=process)
             session.add(user)
@@ -23,7 +22,7 @@ async def set_user_data(user_id: int, username: Optional[str]=None, description:
             if photo_id is not None:
                 user.photo_id = photo_id
             user.process = process
-        await session.commit() # Сохраняем данные
+        await session.commit()
 
 async def reset_user_data(user_id: int):
     async with async_session() as session:
@@ -83,7 +82,6 @@ async def is_punished(user_id: int):
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.user_id == user_id))
         return bool(user.punished) if user else False
-    
 
 async def delete_process_reports(user_id: int):
     async with async_session() as session:
@@ -96,8 +94,11 @@ async def delete_process_reports(user_id: int):
         elif user.process == 1:
             await asyncio.sleep(604800) # Неделя
 
-        elif user.process in (2, 3):
+        elif user.process == 2:
             await asyncio.sleep(259200) # 3 дня
+
+        elif user.process == 3:
+            await asyncio.sleep(172800) # 2 дня
         
         elif user.punished:
             await asyncio.sleep(10800) # 3 часа

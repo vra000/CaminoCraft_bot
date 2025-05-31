@@ -19,7 +19,6 @@ class User(Base):
     username: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     description: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     photo_id: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    # 0 - не заполнено, 1 - ждёт рассмотрения (заполнено), 2 - решено
     process: Mapped[int] = mapped_column(default=0)
     punished: Mapped[bool] = mapped_column(Boolean, default=False)
 

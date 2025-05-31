@@ -9,7 +9,6 @@ current_status = None
 previous_status = None
 
 async def is_server_online():
-    # print("Старт потока мониторинга статуса сервера")
     global current_status
     try:
         server = JavaServer.lookup(HOST)

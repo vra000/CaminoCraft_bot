@@ -67,7 +67,6 @@ async def main_callback_query(call: CallbackQuery):
 
     if call.data == 'mStatus':
         print("Статус")
-        # Получаем актуальный статус сервера
         status = await is_server_online()
         if status == online:
             await call.message.edit_text(
@@ -88,7 +87,6 @@ async def main_callback_query(call: CallbackQuery):
         prev = previous_status
         status = await is_server_online()
         if status != prev:
-            # ВАЖНО: обновляем previous_status!
             import app.bot.server_status
             app.bot.server_status.previous_status = status
 
