@@ -32,11 +32,6 @@ async def reset_user_data(user_id: int):
             await session.delete(user)
             await session.commit()
 
-async def reset_user_data(user_id: int):
-    async with async_session() as session:
-        return await session.scalar(select(User).where(User.user_id == user_id))
-
-
 async def get_reports():
     async with async_session() as session:
         result = await session.execute(
@@ -97,7 +92,6 @@ async def delete_process_reports(user_id: int):
             return
         if user.process == 0:
             await asyncio.sleep(86400) # 1 день
-            print('Удалилось')
 
         elif user.process == 1:
             await asyncio.sleep(604800) # Неделя
