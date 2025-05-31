@@ -95,7 +95,7 @@ async def delete_process_reports(user_id: int):
             await asyncio.sleep(604800) # Неделя
 
         elif user.process == 2:
-            await asyncio.sleep(259200) # 3 дня
+            await asyncio.sleep(1209600) # Две недели
 
         elif user.process == 3:
             await asyncio.sleep(172800) # 2 дня
