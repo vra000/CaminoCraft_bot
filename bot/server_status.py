@@ -1,6 +1,6 @@
 import asyncio
 from mcstatus import JavaServer
-from app.bot.config import HOST
+from config import HOST
 
 online = '🟢 Онлайн'
 offline = '🔴 Оффлайн'

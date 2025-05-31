@@ -1,7 +1,7 @@
 import asyncio, logging
 from aiogram import Bot, Dispatcher
 
-from app.bot.config import TOKEN
+from config import TOKEN
 from app.bot.handlers import router
 from app.bot.server_status import init_status, look_previous_status
 from app.bot.database.models import async_main
