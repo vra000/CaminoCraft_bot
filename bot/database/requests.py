@@ -50,33 +50,36 @@ async def reports_count():
         )
         reports_amount = result.scalar_one()
         return reports_amount
-    
-async def accept_report(user_id: int):
-    async with async_session() as session:
-        user = await session.scalar(select(User).where(User.user_id == user_id, User.process == 1, User.punished == False))
-        if user:
-            user.process = 2
-            await session.commit()
-            return True
-        return False
-    
-async def cancel_report(user_id: int):
-    async with async_session() as session:
-        user = await session.scalar(select(User).where(User.user_id == user_id, User.process == 1, User.punished == False))
-        if user:
-            user.process = 3
-            await session.commit()
-            return True
-        return False
-    
-async def punish_report(user_id: int):
-    async with async_session() as session:
-        user = await session.scalar(select(User).where(User.user_id == user_id, User.process == 1, User.punished == False))
-        if user:
-            user.punished = True
-            await session.commit()
-            return True
-        return False
+
+class Support:
+    def __init__(self):
+        pass
+
+    async def accept_report(self, user_id: int):
+        async with async_session() as session:
+            user = await session.scalar(select(User).where(User.user_id == user_id, User.process == 1, User.punished == False))
+            if user:
+                user.process = 2
+                await session.commit()
+                return True
+            return False
+        
+    async def cancel_report(self, user_id: int):
+        async with async_session() as session:
+            user = await session.scalar(select(User).where(User.user_id == user_id, User.process == 1, User.punished == False))
+            if user:
+                user.process = 3
+                await session.commit()
+                return True
+            return False    
+    async def punish_report(self, user_id: int):
+        async with async_session() as session:
+            user = await session.scalar(select(User).where(User.user_id == user_id, User.process == 1, User.punished == False))
+            if user:
+                user.punished = True
+                await session.commit()
+                return True
+            return False
 
 async def is_punished(user_id: int):
     async with async_session() as session:
@@ -103,7 +106,6 @@ async def delete_process_reports(user_id: int):
         elif user.punished:
             await asyncio.sleep(10800) # 3 часа
 
-        user = await session.scalar(select(User).where(User.user_id == user_id))
         if user:
             await session.delete(user)
             await session.commit()

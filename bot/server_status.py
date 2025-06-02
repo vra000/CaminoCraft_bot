@@ -17,7 +17,7 @@ async def is_server_online():
         return online
     except Exception:
         current_status = offline
-        print("Сервер оффлайн или не доступен")
+        #print("Сервер оффлайн или не доступен")
         return offline
 
 async def look_previous_status():

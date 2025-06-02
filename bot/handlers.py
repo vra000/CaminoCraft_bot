@@ -119,7 +119,7 @@ async def main_callback_query(call: CallbackQuery):
 @router.callback_query(F.data == 'report_asking')
 async def ask_desk(call: CallbackQuery, state: FSMContext):
     if await rq.is_punished(call.from_user.id):
-        await call.answer('Вы были временно наказаны за неккоректный репорт ⚠')
+        await call.answer('⚠ Вы были временно наказаны за неккоректный репорт')
     else:
         await rq.set_user_data(user_id=call.from_user.id,username=call.from_user.username)
         await state.set_state(br.BugReport.desc)
@@ -223,7 +223,7 @@ async def cancel_report(call: CallbackQuery, state: FSMContext):
     delete_message_later(sent, delay=10)
 
 
-@router.message(Command('admin'))
+@router.message(Command('support'))
 async def main_admin_panel(message: Message):
     if message.from_user.id != ADMIN_ID:
         await message.answer("У вас нет доступа к этой команде.")
@@ -233,8 +233,7 @@ async def main_admin_panel(message: Message):
 @router.callback_query(F.data == 'reports_list')
 async def reports_panel(call: CallbackQuery):
     count = await rq.reports_count()
-    await reports_list(
-        call,
+    await call.message.edit_text(
         text=f'Доступно: {count} репортов',
         reply_markup=await kb.admin_reports()
     )
@@ -253,7 +252,7 @@ async def report_detail(call: CallbackQuery):
 
     username = report.username or 'Неизвестно'
     description = report.description
-    photo_id = report.photo_id or 'Нет фото'
+    photo_id = report.photo_id
 
     try:
         await call.message.delete()
@@ -282,7 +281,8 @@ async def report_detail(call: CallbackQuery):
 @router.callback_query(F.data.startswith('report_accept_'))
 async def report_accept(call: CallbackQuery):
     user_id = call.data.split('_', 2)[2]
-    await rq.accept_report(user_id)
+    support = rq.Support()
+    await support.accept_report(user_id)
     await call.message.delete()
     count = await rq.reports_count()
     await call.bot.send_message(
@@ -296,7 +296,8 @@ async def report_accept(call: CallbackQuery):
 @router.callback_query(F.data.startswith('report_cancel_'))
 async def report_cancel(call: CallbackQuery):
     user_id = call.data.split('_', 2)[2]
-    await rq.cancel_report(user_id)
+    support = rq.Support()
+    await support.cancel_report(user_id)
     count = await rq.reports_count()
     await reports_list(
         call,
@@ -309,7 +310,8 @@ async def report_cancel(call: CallbackQuery):
 @router.callback_query(F.data.startswith('report_punish_'))
 async def report_punish(call: CallbackQuery):
     user_id = call.data.split('_', 2)[2]
-    await rq.punish_report(user_id)
+    support = rq.Support()
+    await support.punish_report(user_id)
     count = await rq.reports_count()
     await reports_list(
         call,
